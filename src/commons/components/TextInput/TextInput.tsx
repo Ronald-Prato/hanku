@@ -1,6 +1,8 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { TextInputProps } from "./TextInput.contracts";
+import { AiOutlineEye } from "react-icons/ai";
 import { CustomInput, IconContainer, MainContainer } from "./TextInput.style";
+import { Theme } from "../../../theme";
 
 export const TextInput: FC<TextInputProps> = ({
   placeholder,
@@ -9,16 +11,31 @@ export const TextInput: FC<TextInputProps> = ({
   icon,
   type,
 }) => {
+  const [localType, setLocalType] = useState(type);
+  const [toggleVisibility, setToggleVisibility] = useState(true);
+
+  useEffect(() => {
+    toggleVisibility ? setLocalType(type) : setLocalType("text");
+  }, [toggleVisibility]);
+
   return (
     <MainContainer>
       {icon && <IconContainer>{icon}</IconContainer>}
 
       <CustomInput
         placeholder={placeholder}
-        type={type}
+        type={localType}
         defaultValue={defaultValue}
         onChange={(event) => onChange(event.target.value)}
       />
+
+      {type === "password" && (
+        <AiOutlineEye
+          onClick={() => setToggleVisibility(!toggleVisibility)}
+          style={{ paddingRight: 5, cursor: "pointer" }}
+          color={Theme.PALETTE.gray}
+        />
+      )}
     </MainContainer>
   );
 };

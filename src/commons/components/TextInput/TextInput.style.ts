@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const MainContainer = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   padding: 10px;
   border-radius: 50px;
   background: ${({ theme }) => theme.PALETTE.primaryDark};
@@ -20,5 +20,5 @@ export const CustomInput = styled.input`
 `;
 
 export const IconContainer = styled.div`
-  margin: 0 10px 0 5px;
+  margin: 3px 10px 0 5px;
 `;

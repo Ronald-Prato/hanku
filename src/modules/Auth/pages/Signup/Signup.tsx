@@ -14,12 +14,14 @@ import {
 import { AuthLayout } from "../../../../layouts/AuthLayout/AuthLayout";
 import { ReactComponent as HankuTypeLogo } from "../../../../assets/svg/hanku-type-logo.svg";
 import { useNavigate } from "react-router-dom";
+import { checkLoginCredentials } from "../../utils/formUtils";
+import { signUp } from "../../services/signup";
 
 export const Signup = () => {
   const navigate = useNavigate();
 
   const [state, setState] = useState({
-    username: "",
+    email: "",
     password: "",
     repeatedPassword: "",
   });
@@ -31,7 +33,17 @@ export const Signup = () => {
     });
   };
 
-  const handleLogin = () => {};
+  const handleSingup = async () => {
+    const { email, password } = state;
+    if (checkLoginCredentials({ email, password })) {
+      const newUser = await signUp(email, password);
+      console.log(newUser);
+
+      if (!newUser) {
+        alert("Error");
+      }
+    }
+  };
 
   const handleGoToLogin = () => {
     navigate("/login");
@@ -52,7 +64,7 @@ export const Signup = () => {
           <TextInput
             icon={<AiOutlineUser color={Theme.PALETTE.gray} />}
             placeholder="Correo electrónico"
-            onChange={(value) => handleChangeInputs("username", value)}
+            onChange={(value) => handleChangeInputs("email", value)}
           />
 
           <TextInput
@@ -70,7 +82,7 @@ export const Signup = () => {
           />
 
           <ButtonSection>
-            <FormButton title="CREAR CUENTA" onClick={handleLogin} />
+            <FormButton title="CREAR CUENTA" onClick={handleSingup} />
           </ButtonSection>
         </InputsBox>
 

@@ -14,12 +14,14 @@ import {
 import { AuthLayout } from "../../../../layouts/AuthLayout/AuthLayout";
 import { ReactComponent as HankuTypeLogo } from "../../../../assets/svg/hanku-type-logo.svg";
 import { useNavigate } from "react-router-dom";
+import { checkLoginCredentials } from "../../utils/formUtils";
+import { signIn } from "../../services/login";
 
 export const Login = () => {
   const navigate = useNavigate();
 
   const [state, setState] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -30,7 +32,19 @@ export const Login = () => {
     });
   };
 
-  const handleLogin = () => {};
+  const handleLogin = async () => {
+    const { email, password } = state;
+
+    if (checkLoginCredentials({ email, password })) {
+      const user = await signIn(email, password);
+
+      if (!user) {
+        return;
+      }
+
+      navigate("/");
+    }
+  };
 
   const handleGoToSignup = () => {
     navigate("/signup");
@@ -51,7 +65,7 @@ export const Login = () => {
           <TextInput
             icon={<AiOutlineUser color={Theme.PALETTE.gray} />}
             placeholder="Correo electrónico"
-            onChange={(value) => handleChangeInputs("username", value)}
+            onChange={(value) => handleChangeInputs("email", value)}
           />
 
           <TextInput
