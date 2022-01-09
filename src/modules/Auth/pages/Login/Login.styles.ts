@@ -8,6 +8,7 @@ export const MainContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 
 export const InputsBox = styled.div`
@@ -48,5 +49,29 @@ export const TextSection = styled.div`
     color: white;
     font-weight: 100;
     font-size: 28px;
+  }
+`;
+
+export const NoAccountSection = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  bottom: 10%;
+  display: flex;
+  font-family: monospace;
+  width: 100%;
+  justify-content: center;
+
+  p {
+    margin: 0;
+    color: ${({ theme }) => theme.PALETTE.lightGray};
+  }
+  b {
+    margin: 0;
+    color: ${({ theme }) => theme.PALETTE.lightGray};
+    text-decoration: underline;
+    margin-left: 2%;
+    cursor: pointer;
   }
 `;

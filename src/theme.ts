@@ -4,6 +4,7 @@ interface DefaultTheme {
     primaryDark: string;
     darker: string;
     gray: string;
+    lightGray: string;
   };
 }
 
@@ -13,5 +14,6 @@ export const Theme: DefaultTheme = {
     primaryDark: "#232323",
     darker: "#131010",
     gray: "#8a8a8a",
+    lightGray: "#b3b3b3",
   },
 };
