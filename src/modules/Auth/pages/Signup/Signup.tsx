@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { AiOutlineUser, AiTwotoneLock } from "react-icons/ai";
 
 import { Theme } from "../../../../theme";
-import { FormButton, TextInput } from "../../../../commons/components";
+import { Alert, FormButton, TextInput } from "../../../../commons/components";
 import {
   ButtonSection,
   InputsBox,
@@ -16,6 +16,7 @@ import { ReactComponent as HankuTypeLogo } from "../../../../assets/svg/hanku-ty
 import { useNavigate } from "react-router-dom";
 import { checkLoginCredentials } from "../../utils/formUtils";
 import { signUp } from "../../services/signup";
+import { AlertSeverities } from "../../../../commons/components/Alert/Alert.contracts";
 
 export const Signup = () => {
   const navigate = useNavigate();
@@ -25,6 +26,11 @@ export const Signup = () => {
     password: "",
     repeatedPassword: "",
   });
+  const [customAlert, setCustomAlert] = useState({
+    message: "",
+    severity: "normal",
+    show: false,
+  });
 
   const handleChangeInputs = (option: string, value: string) => {
     setState({
@@ -33,14 +39,21 @@ export const Signup = () => {
     });
   };
 
+  const handleShowAlarm = (message: string, severity: AlertSeverities) => {
+    setCustomAlert({
+      show: true,
+      message,
+      severity,
+    });
+  };
+
   const handleSingup = async () => {
     const { email, password } = state;
-    if (checkLoginCredentials({ email, password })) {
-      const newUser = await signUp(email, password);
-      console.log(newUser);
+    if (checkLoginCredentials({ email, password, handleShowAlarm })) {
+      const newUser = await signUp(email, password, handleShowAlarm);
 
       if (!newUser) {
-        alert("Error");
+        return;
       }
     }
   };
@@ -90,6 +103,14 @@ export const Signup = () => {
           <p>¿Ya tienes cuenta?</p>
           <b onClick={handleGoToLogin}>Inicia sesión</b>
         </NoAccountSection>
+
+        {customAlert.show && (
+          <Alert
+            message={customAlert.message}
+            severity={customAlert.severity as AlertSeverities}
+            onClosed={() => setCustomAlert({ ...customAlert, show: false })}
+          />
+        )}
       </MainContainer>
     </AuthLayout>
   );

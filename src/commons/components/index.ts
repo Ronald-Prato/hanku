@@ -1,4 +1,5 @@
 import { TextInput } from "./TextInput/TextInput";
 import { FormButton } from "./FormButton/FormButton";
+import { Alert } from "./Alert/Alert";
 
-export { TextInput, FormButton };
+export { TextInput, FormButton, Alert };

@@ -1,3 +1,5 @@
+import { AlertSeverities } from "../../../commons/components/Alert/Alert.contracts";
+
 const validateEmail = (email: string) => {
   return email
     .toLowerCase()
@@ -9,22 +11,24 @@ const validateEmail = (email: string) => {
 export const checkLoginCredentials = ({
   email,
   password,
+  handleShowAlarm,
 }: {
   email: string;
   password: string;
+  handleShowAlarm: (message: string, severity: AlertSeverities) => void;
 }) => {
   if (!email.trim().length) {
-    alert("Email requerido");
+    handleShowAlarm("Email requerido", "error");
     return false;
   }
 
   if (!password.length) {
-    alert("Contraseña requerida");
+    handleShowAlarm("Contraseña requerida", "error");
     return false;
   }
 
   if (!validateEmail(email)) {
-    alert("Email inválido");
+    handleShowAlarm("Email inválido", "error");
     return false;
   }
 

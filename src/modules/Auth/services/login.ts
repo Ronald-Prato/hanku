@@ -1,7 +1,12 @@
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { AlertSeverities } from "../../../commons/components/Alert/Alert.contracts";
 import { FirebaseLoginErrors } from "../constants";
 
-export const signIn = async (email: string, password: string) => {
+export const signIn = async (
+  email: string,
+  password: string,
+  handleShowAlarm: (message: string, severity: AlertSeverities) => void
+) => {
   const auth = getAuth();
 
   try {
@@ -12,11 +17,11 @@ export const signIn = async (email: string, password: string) => {
     const customErr: any = err;
 
     if (customErr.message === FirebaseLoginErrors.NotFound) {
-      alert("El usuario no existe");
+      handleShowAlarm("El usuario no existe", "error");
     }
 
     if (customErr.message === FirebaseLoginErrors.WrongPassword) {
-      alert("Contraseña incorrecta");
+      handleShowAlarm("Contraseña incorrecta", "error");
     }
     return null;
   }

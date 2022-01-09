@@ -49,6 +49,7 @@ export const TextSection = styled.div`
     color: white;
     font-weight: 100;
     font-size: 28px;
+    line-height: 80%;
   }
 `;
 
@@ -62,6 +63,7 @@ export const NoAccountSection = styled.div`
   font-family: monospace;
   width: 100%;
   justify-content: center;
+  font-family: Roboto;
 
   p {
     margin: 0;

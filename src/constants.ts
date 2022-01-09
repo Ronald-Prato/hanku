@@ -1,3 +1,4 @@
 const MAX_APP_WIDTH = 1920;
+const ALERT_SHOW_TIME = 3000;
 
-export { MAX_APP_WIDTH };
+export { MAX_APP_WIDTH, ALERT_SHOW_TIME };

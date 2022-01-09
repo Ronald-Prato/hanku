@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { AiOutlineUser, AiTwotoneLock } from "react-icons/ai";
 
 import { Theme } from "../../../../theme";
-import { FormButton, TextInput } from "../../../../commons/components";
+import { Alert, FormButton, TextInput } from "../../../../commons/components";
 import {
   ButtonSection,
   InputsBox,
@@ -16,6 +16,7 @@ import { ReactComponent as HankuTypeLogo } from "../../../../assets/svg/hanku-ty
 import { useNavigate } from "react-router-dom";
 import { checkLoginCredentials } from "../../utils/formUtils";
 import { signIn } from "../../services/login";
+import { AlertSeverities } from "../../../../commons/components/Alert/Alert.contracts";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -23,6 +24,11 @@ export const Login = () => {
   const [state, setState] = useState({
     email: "",
     password: "",
+  });
+  const [customAlert, setCustomAlert] = useState({
+    message: "",
+    severity: "normal",
+    show: false,
   });
 
   const handleChangeInputs = (option: string, value: string) => {
@@ -32,11 +38,19 @@ export const Login = () => {
     });
   };
 
+  const handleShowAlarm = (message: string, severity: AlertSeverities) => {
+    setCustomAlert({
+      show: true,
+      message,
+      severity,
+    });
+  };
+
   const handleLogin = async () => {
     const { email, password } = state;
 
-    if (checkLoginCredentials({ email, password })) {
-      const user = await signIn(email, password);
+    if (checkLoginCredentials({ email, password, handleShowAlarm })) {
+      const user = await signIn(email, password, handleShowAlarm);
 
       if (!user) {
         return;
@@ -84,6 +98,14 @@ export const Login = () => {
           <p>¿No tienes cuenta?</p>
           <b onClick={handleGoToSignup}>Regístrate aquí</b>
         </NoAccountSection>
+
+        {customAlert.show && (
+          <Alert
+            message={customAlert.message}
+            severity={customAlert.severity as AlertSeverities}
+            onClosed={() => setCustomAlert({ ...customAlert, show: false })}
+          />
+        )}
       </MainContainer>
     </AuthLayout>
   );
