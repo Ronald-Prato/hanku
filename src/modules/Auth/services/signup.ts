@@ -1,4 +1,8 @@
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 import { AlertSeverities } from "../../../commons/components/Alert/Alert.contracts";
 import { FirebaseSignupErrors } from "../constants";
 
@@ -8,6 +12,7 @@ export const signUp = async (
   handleShowAlarm: (message: string, severity: AlertSeverities) => void
 ) => {
   const auth = getAuth();
+  signOut(auth);
 
   try {
     const user = await createUserWithEmailAndPassword(auth, email, password);
