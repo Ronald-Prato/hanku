@@ -79,7 +79,7 @@ export const Signup = () => {
           </TextSection>
         </LogoSection>
 
-        <InputsBox>
+        <InputsBox onSubmit={(event) => event.preventDefault()}>
           <TextInput
             icon={<AiOutlineUser color={Theme.PALETTE.gray} />}
             placeholder="Correo electrónico"

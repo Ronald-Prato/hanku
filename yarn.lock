@@ -2153,6 +2153,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/gun@^0.9.3":
+  version "0.9.3"
+  resolved "https://registry.yarnpkg.com/@types/gun/-/gun-0.9.3.tgz#cdc1116e4a43323733a577e7bc330fdf731a7446"
+  integrity sha512-ydC8P4EHbVUqSK4+BhVQW1b4DCksLVKdnLJENJYuiBQDvk2UfA79vTcKxG7hnpyHPas/7yT6pMviMSDp5m7rmg==
+
 "@types/hoist-non-react-statics@*", "@types/hoist-non-react-statics@^3.3.0":
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz#1124aafe5118cb591977aeb1ceaaed1070eb039f"

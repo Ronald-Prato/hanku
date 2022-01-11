@@ -18,7 +18,7 @@ export const useGunUser = () => {
   }) => {
     gun
       .get(uid)
-      .map()
+      .get("data")
       .once((_user) => {
         if (!_user) {
           noUserCallback && noUserCallback();
@@ -61,6 +61,8 @@ export const useGunUser = () => {
         lvlPoints: 0,
         rank: Ranks.Copper,
       };
+
+      console.log("User Data ", userData);
 
       const newUser = gun.get(uid).put({
         data: userData,

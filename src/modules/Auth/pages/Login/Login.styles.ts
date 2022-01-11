@@ -11,7 +11,7 @@ export const MainContainer = styled.div`
   position: relative;
 `;
 
-export const InputsBox = styled.div`
+export const InputsBox = styled.form`
   max-width: 350px;
   width: 80%;
   display: grid;

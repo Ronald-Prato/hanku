@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../../../commons/store";
@@ -7,10 +7,12 @@ import { getAuth, signOut } from "firebase/auth";
 
 export const MainScreen = () => {
   const { getUser } = useGunUser();
+
   const user = useSelector((state: RootState) => state.user);
   const auth = getAuth();
-
   const navigate = useNavigate();
+
+  const [showMainScreen, setShowMainScreen] = useState(false);
 
   const handleRedirectToWizard = () => {
     // This function gets called if there's no user in peer network
@@ -18,7 +20,10 @@ export const MainScreen = () => {
   };
 
   useEffect(() => {
-    getUser({ noUserCallback: handleRedirectToWizard });
+    getUser({
+      noUserCallback: handleRedirectToWizard,
+      userSet: () => setShowMainScreen(true),
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -27,7 +32,7 @@ export const MainScreen = () => {
     navigate("/login");
   };
 
-  return (
+  return showMainScreen ? (
     <div>
       <p>id: {user.uid}</p>
       <p>nickname: {user.nickname}</p>
@@ -38,5 +43,5 @@ export const MainScreen = () => {
 
       <button onClick={handleCloseSesion}>cerrar sesion</button>
     </div>
-  );
+  ) : null;
 };
