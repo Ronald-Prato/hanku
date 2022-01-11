@@ -9,14 +9,19 @@ export const MainContainer = styled.div`
   background: ${({ theme }) => theme.PALETTE.primaryDark};
 `;
 
-export const CustomInput = styled.input`
+export const CustomInput = styled.input<{
+  centerText: boolean;
+  customColor?: string;
+}>`
   outline: none;
   border: none;
   background: none;
-  color: ${({ theme }) => theme.PALETTE.gray};
+  color: ${({ theme, customColor }) =>
+    customColor ? customColor : theme.PALETTE.gray};
   font-size: 15px;
   font-weight: 500;
   flex: 1;
+  text-align: ${({ centerText }) => (centerText ? "center" : "left")};
 `;
 
 export const IconContainer = styled.div`

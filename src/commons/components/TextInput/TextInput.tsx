@@ -10,6 +10,9 @@ export const TextInput: FC<TextInputProps> = ({
   defaultValue,
   icon,
   type,
+  maxLength,
+  centerText,
+  customColor,
 }) => {
   const [localType, setLocalType] = useState(type);
   const [toggleVisibility, setToggleVisibility] = useState(true);
@@ -27,6 +30,10 @@ export const TextInput: FC<TextInputProps> = ({
         type={localType}
         defaultValue={defaultValue}
         onChange={(event) => onChange(event.target.value)}
+        maxLength={maxLength}
+        centerText={centerText || false}
+        customColor={customColor}
+        spellCheck={false}
       />
 
       {type === "password" && (

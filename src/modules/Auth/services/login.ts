@@ -11,7 +11,7 @@ export const signIn = async (
 
   try {
     const user = await signInWithEmailAndPassword(auth, email, password);
-    console.log(user);
+
     return user;
   } catch (err) {
     const customErr: any = err;

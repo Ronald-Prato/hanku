@@ -17,9 +17,12 @@ import { useNavigate } from "react-router-dom";
 import { checkLoginCredentials } from "../../utils/formUtils";
 import { signIn } from "../../services/login";
 import { AlertSeverities } from "../../../../commons/components/Alert/Alert.contracts";
+import { useDispatch } from "react-redux";
+import { setUserUid } from "../../../../commons/store/user/user.party";
 
 export const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [state, setState] = useState({
     email: "",
@@ -56,6 +59,7 @@ export const Login = () => {
         return;
       }
 
+      dispatch(setUserUid(user?.user.uid));
       navigate("/");
     }
   };

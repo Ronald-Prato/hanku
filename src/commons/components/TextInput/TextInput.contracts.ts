@@ -6,4 +6,7 @@ export interface TextInputProps {
   defaultValue?: string;
   icon?: JSX.Element;
   type?: HTMLInputTypeAttribute;
+  maxLength?: number;
+  centerText?: boolean;
+  customColor?: string;
 }
