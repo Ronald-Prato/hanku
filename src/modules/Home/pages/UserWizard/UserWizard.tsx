@@ -12,6 +12,7 @@ import { AlertSeverities } from "../../../../commons/components/Alert/Alert.cont
 import { NICKNAME_MIN_LENGTH } from "../../../../constants";
 import { useGunUser } from "../../../../commons/hooks/useGunUser";
 import { useNavigate } from "react-router-dom";
+import { gun } from "../../../../gun";
 
 export const UserWizard = () => {
   const { createUser } = useGunUser();
@@ -42,7 +43,7 @@ export const UserWizard = () => {
       nickname,
       avatar,
       createdCallback: () => {
-        navigate("/");
+        navigate("/home");
       },
       errorCallback: handleShowError,
     });
@@ -53,7 +54,15 @@ export const UserWizard = () => {
       <BackgroundImage src={HankuTypeImage} />
 
       <MainContent>
-        <HankuTypeLogo width={80} />
+        <HankuTypeLogo
+          onClick={() =>
+            gun
+              .get("gOgelizdFZhbDNJ9cTseUJVusOF2")
+              .get("data")
+              .once((s) => console.log(s))
+          }
+          width={80}
+        />
         <NicknameContainer
           onChangeNickname={(value) => setState({ ...state, nickname: value })}
         />

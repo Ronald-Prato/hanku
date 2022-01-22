@@ -1,6 +1,6 @@
 import { Dispatch, AnyAction } from "redux";
 import { Ranks, User } from "../../contracts/user.contracts";
-import { _setUserData, _setUserUid } from "./user.actions";
+import { _setUserData, _setUserUid, _setUserAvatar } from "./user.actions";
 
 const initialState: User = {
   uid: "",
@@ -23,7 +23,15 @@ const setUserUid = (uid: string) => {
   };
 };
 
-type AuthAction = ReturnType<typeof _setUserData | typeof _setUserUid>;
+const setUserAvatar = (newAvatar: string) => {
+  return (dispatch: Dispatch<AnyAction>) => {
+    dispatch(_setUserAvatar(newAvatar));
+  };
+};
+
+type AuthAction = ReturnType<
+  typeof _setUserData | typeof _setUserUid | typeof _setUserAvatar
+>;
 
 const userReducer = (state = initialState, action: AuthAction): User => {
   switch (action.type) {
@@ -34,9 +42,14 @@ const userReducer = (state = initialState, action: AuthAction): User => {
         ...state,
         uid: action.payload,
       };
+    case "user/SET_USER_AVATAR":
+      return {
+        ...state,
+        avatar: action.payload,
+      };
     default:
       return state;
   }
 };
 
-export { userReducer, setUserData, setUserUid };
+export { userReducer, setUserData, setUserUid, setUserAvatar };

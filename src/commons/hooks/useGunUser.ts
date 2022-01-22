@@ -3,7 +3,7 @@ import { Entities } from "../../constants";
 import { gun } from "../../gun";
 import { Ranks, User } from "../contracts/user.contracts";
 import { RootState } from "../store";
-import { setUserData } from "../store/user/user.party";
+import { setUserAvatar, setUserData } from "../store/user/user.party";
 
 export const useGunUser = () => {
   const dispatch = useDispatch();
@@ -62,8 +62,6 @@ export const useGunUser = () => {
         rank: Ranks.Copper,
       };
 
-      console.log("User Data ", userData);
-
       const newUser = gun.get(uid).put({
         data: userData,
       });
@@ -76,5 +74,12 @@ export const useGunUser = () => {
     }
   };
 
-  return { getUser, createUser };
+  const updateAvatar = (newAvatar: string, updatedCallback?: () => void) => {
+    console.log(" New avatar: ", newAvatar);
+    gun.get(uid).get("data").put({ avatar: newAvatar });
+    dispatch(setUserAvatar(newAvatar));
+    updatedCallback && updatedCallback();
+  };
+
+  return { getUser, createUser, updateAvatar };
 };

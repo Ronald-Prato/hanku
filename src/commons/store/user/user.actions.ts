@@ -9,4 +9,8 @@ const _setUserUid = (uid: string) => {
   return typedAction("user/SET_USER_UID", uid);
 };
 
-export { _setUserData, _setUserUid };
+const _setUserAvatar = (newAvatar: string) => {
+  return typedAction("user/SET_USER_AVATAR", newAvatar);
+};
+
+export { _setUserData, _setUserUid, _setUserAvatar };

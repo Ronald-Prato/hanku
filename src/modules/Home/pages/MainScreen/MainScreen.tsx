@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { RootState } from "../../../../commons/store";
 import { useGunUser } from "../../../../commons/hooks/useGunUser";
 import { getAuth, signOut } from "firebase/auth";
+import { HomeLayout } from "../../../../layouts/HomeLayout/HomeLayout";
+import {
+  CustomButton,
+  LeftContainer,
+  MainContainer,
+} from "./MainScreen.styles";
 
 export const MainScreen = () => {
   const { getUser } = useGunUser();
 
-  const user = useSelector((state: RootState) => state.user);
   const auth = getAuth();
   const navigate = useNavigate();
 
@@ -33,15 +36,20 @@ export const MainScreen = () => {
   };
 
   return showMainScreen ? (
-    <div>
-      <p>id: {user.uid}</p>
-      <p>nickname: {user.nickname}</p>
-      <p>avatar: {user.avatar}</p>
-      <p>rank: {user.rank}</p>
-      <p>lvl: {user.lvl}</p>
-      <p>lvl points: {user.lvlPoints}</p>
+    <HomeLayout>
+      <MainContainer>
+        <LeftContainer>
+          <p>BIENVENIDOS A</p>
+          <h1>Hanku</h1>
+          <h2>Type</h2>
+          <span>
+            El lugar donde podrás mejorar tu velocidad mecanográfica compitiendo
+            con jugadores de todo el mundo.
+          </span>
 
-      <button onClick={handleCloseSesion}>cerrar sesion</button>
-    </div>
+          <CustomButton onClick={handleCloseSesion}>JUGAR</CustomButton>
+        </LeftContainer>
+      </MainContainer>
+    </HomeLayout>
   ) : null;
 };

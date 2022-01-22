@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { AccountScreen } from "../modules/Home/pages";
 import { Login, Signup } from "../modules/Auth/pages";
 import { MainScreen } from "../modules/Home/pages";
 import { UserWizard } from "../modules/Home/pages/";
@@ -12,7 +13,7 @@ export const Router = () => {
         <Route
           path="/login"
           element={
-            <ProtectedRoute redirectPath="/">
+            <ProtectedRoute redirectPath="/home">
               <Login />
             </ProtectedRoute>
           }
@@ -20,13 +21,13 @@ export const Router = () => {
         <Route
           path="/signup"
           element={
-            <ProtectedRoute redirectPath="/">
+            <ProtectedRoute redirectPath="/home">
               <Signup />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/"
+          path="/home"
           element={
             <PrivateRoute>
               <MainScreen />
@@ -38,6 +39,14 @@ export const Router = () => {
           element={
             <PrivateRoute>
               <UserWizard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/account"
+          element={
+            <PrivateRoute>
+              <AccountScreen />
             </PrivateRoute>
           }
         />

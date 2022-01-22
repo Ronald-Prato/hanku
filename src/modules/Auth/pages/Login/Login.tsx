@@ -60,7 +60,7 @@ export const Login = () => {
       }
 
       dispatch(setUserUid(user?.user.uid));
-      navigate("/");
+      navigate("/home");
     }
   };
 

@@ -60,7 +60,7 @@ export const Signup = () => {
       }
 
       dispatch(setUserUid(newUser?.user.uid));
-      navigate("/");
+      navigate("/home");
     }
   };
 

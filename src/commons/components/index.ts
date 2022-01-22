@@ -1,5 +1,7 @@
+import { Alert } from "./Alert/Alert";
+import { Avatar } from "./Avatar/Avatar";
 import { TextInput } from "./TextInput/TextInput";
 import { FormButton } from "./FormButton/FormButton";
-import { Alert } from "./Alert/Alert";
+import { GameHeader } from "./GameHeader/GameHeader";
 
-export { TextInput, FormButton, Alert };
+export { TextInput, FormButton, Alert, GameHeader, Avatar };
