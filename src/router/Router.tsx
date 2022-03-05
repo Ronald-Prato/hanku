@@ -8,6 +8,7 @@ import { UserWizard } from "../modules/Home/pages/";
 import { PrivateRoute } from "./PriverRoute";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { QueueScreen } from "../modules/Queue/pages/QueueScreen/QueueScreen";
+import { MatchScreen } from "../modules/Match/pages/MatchScreen/MatchScreen";
 
 const InstantRedirect = ({
   redirectTo,
@@ -70,6 +71,14 @@ export const Router = () => {
           element={
             <PrivateRoute>
               <QueueScreen />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/match"
+          element={
+            <PrivateRoute>
+              <MatchScreen />
             </PrivateRoute>
           }
         />
