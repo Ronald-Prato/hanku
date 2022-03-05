@@ -35,6 +35,10 @@ export const MainScreen = () => {
     navigate("/login");
   };
 
+  const handleGoToQueue = () => {
+    navigate("/queue");
+  };
+
   return showMainScreen ? (
     <HomeLayout>
       <MainContainer>
@@ -42,12 +46,8 @@ export const MainScreen = () => {
           <p>BIENVENIDOS A</p>
           <h1>Hanku</h1>
           <h2>Type</h2>
-          <span>
-            El lugar donde podrás mejorar tu velocidad mecanográfica compitiendo
-            con jugadores de todo el mundo.
-          </span>
 
-          <CustomButton onClick={handleCloseSesion}>JUGAR</CustomButton>
+          <CustomButton onClick={handleGoToQueue}>JUGAR</CustomButton>
         </LeftContainer>
       </MainContainer>
     </HomeLayout>

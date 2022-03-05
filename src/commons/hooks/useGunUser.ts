@@ -12,12 +12,14 @@ export const useGunUser = () => {
   const getUser = ({
     noUserCallback,
     userSet,
+    userId,
   }: {
     noUserCallback?: () => void;
     userSet?: () => void;
+    userId?: string;
   }) => {
     gun
-      .get(uid)
+      .get(userId || uid)
       .get("data")
       .once((_user) => {
         if (!_user) {

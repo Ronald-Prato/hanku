@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Variations } from "./Avatar.contracts";
 
 export const MainContainer = styled.div`
   display: flex;
@@ -6,9 +7,9 @@ export const MainContainer = styled.div`
   align-items: center;
 `;
 
-export const AvatarContainer = styled.div`
-  width: 180px;
-  height: 180px;
+export const AvatarContainer = styled.div<{ variation?: Variations }>`
+  width: ${({ variation }) => (variation === "big" ? "180" : "100")}px;
+  height: ${({ variation }) => (variation === "big" ? "180" : "100")}px;
   border-radius: 50%;
   background: ${({ theme }) => theme.PALETTE.primary};
   display: flex;
@@ -16,11 +17,12 @@ export const AvatarContainer = styled.div`
   align-items: center;
   position: relative;
   z-index: 1;
+  margin-top: ${({ variation }) => (variation === "big" ? "0" : "10")}px;
 
   &:before {
     content: "";
-    width: 170px;
-    height: 170px;
+    width: ${({ variation }) => (variation === "big" ? "170" : "90")}px;
+    height: ${({ variation }) => (variation === "big" ? "170" : "90")}px;
     border-radius: 50%;
     background: ${({ theme }) => theme.PALETTE.darker};
     position: absolute;
@@ -29,8 +31,8 @@ export const AvatarContainer = styled.div`
   }
 
   img {
-    width: 130px;
-    height: 130px;
+    width: ${({ variation }) => (variation === "big" ? "130" : "65")}px;
+    height: ${({ variation }) => (variation === "big" ? "130" : "65")}px;
   }
 `;
 
@@ -56,18 +58,26 @@ export const ButtonSection = styled.section`
   }
 `;
 
-export const Username = styled.h2`
-  font-size: 2rem;
-  margin: 10px 0 0 0;
+export const TextSection = styled.div<{ variation?: Variations }>`
+  display: flex;
+  flex-direction: ${({ variation }) =>
+    variation === "big" ? "column" : "row"};
+  align-items: center;
+`;
+
+export const Username = styled.h2<{ variation?: Variations }>`
+  font-size: ${({ variation }) => (variation === "big" ? "2rem" : "1rem")};
+  margin: ${({ variation }) => (variation === "big" ? "10px 0 0 0" : "0")};
   font-weight: 100;
   color: ${({ theme }) => theme.PALETTE.primary};
 `;
 
-export const Lvl = styled.span`
+export const Lvl = styled.span<{ variation?: Variations }>`
   color: white;
   font-weight: 100;
-  margin-bottom: 8%;
+  margin-bottom: ${({ variation }) => (variation === "big" ? "8%" : "0")};
+  margin-left: ${({ variation }) => (variation === "big" ? "0" : "10px")};
   letter-spacing: 2px;
   font-weight: bolder;
-  font-size: 1.7rem;
+  font-size: ${({ variation }) => (variation === "big" ? "1.7rem" : "0.9rem")};
 `;

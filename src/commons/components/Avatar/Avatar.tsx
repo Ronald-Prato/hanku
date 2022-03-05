@@ -1,5 +1,11 @@
 import { FC, useState } from "react";
-import { ButtonSection, Lvl, MainContainer, Username } from "./Avatar.styles";
+import {
+  ButtonSection,
+  Lvl,
+  MainContainer,
+  TextSection,
+  Username,
+} from "./Avatar.styles";
 import { AvatarProps } from "./Avatar.contracts";
 import { AvatarContainer } from "./Avatar.styles";
 import { AVATAR_BASE_URL } from "../../../constants";
@@ -8,7 +14,11 @@ import { useGunUser } from "../../hooks/useGunUser";
 import { AlertSeverities } from "../Alert/Alert.contracts";
 import { Alert } from "..";
 
-export const Avatar: FC<AvatarProps> = ({ user, showControllers = true }) => {
+export const Avatar: FC<AvatarProps> = ({
+  user,
+  showControllers = true,
+  variation,
+}) => {
   const [localAvatar, setLocalAvatar] = useState(user.avatar);
   const { updateAvatar } = useGunUser();
   const [customAlert, setCustomAlert] = useState({
@@ -35,8 +45,10 @@ export const Avatar: FC<AvatarProps> = ({ user, showControllers = true }) => {
 
   return (
     <MainContainer>
-      <Username>{user.nickname}</Username>
-      <Lvl>{user.lvl}</Lvl>
+      <TextSection>
+        <Username variation={variation}>{user.nickname}</Username>
+        <Lvl variation={variation}>{user.lvl}</Lvl>
+      </TextSection>
 
       <AvatarContainer>
         <img alt="HankyUser" src={localAvatar} />

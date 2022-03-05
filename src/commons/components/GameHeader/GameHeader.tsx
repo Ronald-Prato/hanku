@@ -41,6 +41,7 @@ export const GameHeader = () => {
       <MainList>
         {headerOptions.map((headerItem, index) => (
           <ListItem
+            key={headerItem.label}
             isActive={selectedTabIndex === index}
             onClick={() => handleSetOption(index)}
           >
