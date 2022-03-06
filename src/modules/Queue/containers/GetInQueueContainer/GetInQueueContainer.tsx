@@ -1,9 +1,11 @@
 import { FC, useState } from "react";
+
 import {
-  ButtonContainer,
   MainContainer,
+  ButtonContainer,
   QueueLoaderContainer,
 } from "./GetInQueueContainer.styles";
+import { TimerContainer } from "../TimerContainer/TimerContainer";
 
 export const GetInQueueContainer: FC = () => {
   const [isInQueue, setIsInQueue] = useState(false);
@@ -36,6 +38,8 @@ export const GetInQueueContainer: FC = () => {
           <button onClick={handleGetOffOfQueue}>Salir</button>
         </QueueLoaderContainer>
       )}
+
+      {isInQueue && <TimerContainer />}
     </MainContainer>
   );
 };

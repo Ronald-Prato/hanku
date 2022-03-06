@@ -2,8 +2,9 @@ import styled from "styled-components";
 
 export const MainContainer = styled.div`
   margin-top: 4%;
-  padding-bottom: 2%;
+  padding-bottom: 5%;
   overflow: hidden;
+  position: relative;
 `;
 
 export const ButtonContainer = styled.button`

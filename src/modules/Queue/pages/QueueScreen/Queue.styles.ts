@@ -10,3 +10,11 @@ export const MainContainer = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
+export const IconContainer = styled.div`
+  position: absolute;
+  top: 10%;
+  margin: auto;
+
+  cursor: pointer;
+`;
