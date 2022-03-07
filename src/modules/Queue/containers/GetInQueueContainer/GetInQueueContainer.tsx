@@ -1,21 +1,47 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 import {
   MainContainer,
   ButtonContainer,
   QueueLoaderContainer,
 } from "./GetInQueueContainer.styles";
+import { SOCKET_STATUS } from "../../../../constants";
+import { MatchFoundModal } from "../../../../commons/components";
 import { TimerContainer } from "../TimerContainer/TimerContainer";
+import { GetInQueueContainerProps } from "./GetInQueueContainer.contracts";
 
-export const GetInQueueContainer: FC = () => {
+export const GetInQueueContainer: FC<GetInQueueContainerProps> = ({
+  user,
+  socket,
+  onExitQueue,
+  matchFound,
+  onAcceptMatch,
+  onRejectMatch,
+}) => {
   const [isInQueue, setIsInQueue] = useState(false);
 
   const handleGetInQueue = () => {
-    setIsInQueue(true);
+    socket.emit("get-in-queue", user.uid, (callback: SOCKET_STATUS) => {
+      callback.status === "ok" && setIsInQueue(true);
+    });
   };
 
   const handleGetOffOfQueue = () => {
+    socket.emit("exit-queue", user.uid, (callback: SOCKET_STATUS) => {
+      if (callback.status === "ok") {
+        setIsInQueue(false);
+        onExitQueue();
+      }
+    });
+  };
+
+  const handleReject = () => {
+    onRejectMatch();
     setIsInQueue(false);
+  };
+
+  const handleAccept = () => {
+    onAcceptMatch();
   };
 
   return (
@@ -40,6 +66,13 @@ export const GetInQueueContainer: FC = () => {
       )}
 
       {isInQueue && <TimerContainer />}
+
+      {matchFound && (
+        <MatchFoundModal
+          onAcceptMatch={handleAccept}
+          onRejectMatch={handleReject}
+        />
+      )}
     </MainContainer>
   );
 };

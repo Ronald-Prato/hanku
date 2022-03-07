@@ -4,5 +4,16 @@ import { TextInput } from "./TextInput/TextInput";
 import { FormButton } from "./FormButton/FormButton";
 import { GameHeader } from "./GameHeader/GameHeader";
 import { MatchInput } from "./MatchInput/MatchInput";
+import { QueueAlert } from "./QueueAlert/QueueAlert";
+import { MatchFoundModal } from "./MatchFoundModal/MatchFoundModal";
 
-export { TextInput, FormButton, Alert, GameHeader, Avatar, MatchInput };
+export {
+  TextInput,
+  FormButton,
+  Alert,
+  GameHeader,
+  Avatar,
+  MatchInput,
+  MatchFoundModal,
+  QueueAlert,
+};

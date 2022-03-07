@@ -10,6 +10,7 @@
     "@types/node": "^16.11.19",
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
+    "axios": "^0.26.0",
     "firebase": "^9.6.2",
     "gun": "^0.2020.1235",
     "hooked-react-stopwatch": "^1.5.1",
@@ -24,6 +25,8 @@
     "reactfire": "^4.2.1",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
+    "retry-axios": "^2.6.0",
+    "socket.io-client": "^4.4.1",
     "styled-components": "^5.3.3",
     "typescript": "^4.5.4",
     "uuid": "^8.3.2",
@@ -55,6 +58,7 @@
   },
   "devDependencies": {
     "@types/gun": "^0.9.3",
+    "@types/socket.io-client": "^3.0.0",
     "@types/styled-components": "^5.1.19",
     "@types/uuid": "^8.3.4",
     "babel-plugin-module-resolver": "^4.1.0"

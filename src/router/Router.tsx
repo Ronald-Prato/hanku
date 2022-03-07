@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 
-import { AccountScreen } from "../modules/Home/pages";
-import { Login, Signup } from "../modules/Auth/pages";
-import { MainScreen } from "../modules/Home/pages";
-import { UserWizard } from "../modules/Home/pages/";
 import { PrivateRoute } from "./PriverRoute";
 import { ProtectedRoute } from "./ProtectedRoute";
-import { QueueScreen } from "../modules/Queue/pages/QueueScreen/QueueScreen";
+import { MainScreen } from "../modules/Home/pages";
+import { UserWizard } from "../modules/Home/pages/";
+import { AccountScreen } from "../modules/Home/pages";
+import { Login, Signup } from "../modules/Auth/pages";
 import { MatchScreen } from "../modules/Match/pages/MatchScreen/MatchScreen";
+import { QueueScreen } from "../modules/Queue/pages/QueueScreen/QueueScreen";
 
 const InstantRedirect = ({
   redirectTo,

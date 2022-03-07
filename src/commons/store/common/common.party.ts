@@ -1,12 +1,18 @@
 import { Dispatch, AnyAction } from "redux";
-import { _setHeaderTab } from "./common.actions";
+import { QueueAlertProps } from "../../contracts/common.contracts";
+import { _setHeaderTab, _setQueueAlert } from "./common.actions";
 
 interface CommonState {
   headerTab: number;
+  queueAlert: QueueAlertProps;
 }
 
 const initialState: CommonState = {
   headerTab: 0,
+  queueAlert: {
+    show: false,
+    message: "",
+  },
 };
 
 const setHeaderTab = (index: number) => {
@@ -15,7 +21,13 @@ const setHeaderTab = (index: number) => {
   };
 };
 
-type CommonAction = ReturnType<typeof _setHeaderTab>;
+const setQueueAlert = (alarmProps: QueueAlertProps) => {
+  return (dispatch: Dispatch<AnyAction>) => {
+    dispatch(_setQueueAlert(alarmProps));
+  };
+};
+
+type CommonAction = ReturnType<typeof _setHeaderTab | typeof _setQueueAlert>;
 
 const commonReducer = (
   state = initialState,
@@ -27,9 +39,14 @@ const commonReducer = (
         ...state,
         headerTab: action.payload,
       };
+    case "common/SET_QUEUE_ALERT":
+      return {
+        ...state,
+        queueAlert: action.payload,
+      };
     default:
       return state;
   }
 };
 
-export { commonReducer, setHeaderTab };
+export { commonReducer, setHeaderTab, setQueueAlert };
