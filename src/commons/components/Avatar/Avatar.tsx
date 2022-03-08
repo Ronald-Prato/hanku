@@ -47,11 +47,14 @@ export const Avatar: FC<AvatarProps> = ({
     <MainContainer>
       <TextSection>
         <Username variation={variation}>{user.nickname}</Username>
-        <Lvl variation={variation}>{user.lvl}</Lvl>
+        <Lvl variation={variation}>{user.lvlPoints}</Lvl>
       </TextSection>
 
       <AvatarContainer>
-        <img alt="HankyUser" src={localAvatar} />
+        <img
+          alt="HankyUser"
+          src={showControllers ? localAvatar : user.avatar}
+        />
       </AvatarContainer>
 
       {showControllers && (

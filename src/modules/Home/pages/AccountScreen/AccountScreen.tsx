@@ -26,14 +26,3 @@ export const AccountScreen = () => {
     </HomeLayout>
   );
 };
-
-{
-  /* <p>id: {user.uid}</p>
-      <p>nickname: {user.nickname}</p>
-      <p>avatar: {user.avatar}</p>
-      <p>rank: {user.rank}</p>
-      <p>lvl: {user.lvl}</p>
-      <p>lvl points: {user.lvlPoints}</p>
-
-      <button onClick={handleCloseSesion}>cerrar sesion</button> */
-}

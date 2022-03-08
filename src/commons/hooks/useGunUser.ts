@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Entities } from "../../constants";
 import { gun } from "../../gun";
@@ -9,17 +10,22 @@ export const useGunUser = () => {
   const dispatch = useDispatch();
   const uid = useSelector((state: RootState) => state.user.uid);
 
+  const [localUser, setLocalUser] = useState<User>({} as User);
+
   const getUser = ({
     noUserCallback,
     userSet,
     userId,
+    saveUserInState = true,
   }: {
     noUserCallback?: () => void;
     userSet?: () => void;
     userId?: string;
+    saveUserInState?: boolean;
   }) => {
+    // If we dispatch the user to redux, use our userId or any other user, otherwise, use the one we pass over so we can set it locally
     gun
-      .get(userId || uid)
+      .get(saveUserInState ? userId || uid : userId!)
       .get("data")
       .once((_user) => {
         if (!_user) {
@@ -29,17 +35,21 @@ export const useGunUser = () => {
 
         const { nickname, avatar, rank, lvl, lvlPoints, uid } = _user;
 
-        dispatch(
-          setUserData({
-            uid,
-            lvl,
-            rank,
-            avatar,
-            nickname,
-            lvlPoints,
-          })
-        );
-        userSet && userSet();
+        if (saveUserInState) {
+          dispatch(
+            setUserData({
+              uid,
+              lvl,
+              rank,
+              avatar,
+              nickname,
+              lvlPoints,
+            })
+          );
+          userSet && userSet();
+        } else {
+          setLocalUser({ uid, lvl, rank, avatar, nickname, lvlPoints });
+        }
       });
   };
 
@@ -83,5 +93,10 @@ export const useGunUser = () => {
     updatedCallback && updatedCallback();
   };
 
-  return { getUser, createUser, updateAvatar };
+  const updateAllUserInfo = (newUser: User) => {
+    gun.get(uid).put({ data: newUser });
+    dispatch(setUserData(newUser));
+  };
+
+  return { getUser, createUser, updateAvatar, localUser, updateAllUserInfo };
 };

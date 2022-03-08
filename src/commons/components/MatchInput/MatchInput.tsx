@@ -2,7 +2,11 @@ import { FC, useEffect, useRef } from "react";
 import { InputWrapper } from "./MatchInput.styles";
 import { MatchInputProps } from "./MatchInput.styles.contracts";
 
-export const MatchInput: FC<MatchInputProps> = ({ onChangeText, onCheat }) => {
+export const MatchInput: FC<MatchInputProps> = ({
+  onChangeText,
+  onCheat,
+  isDisabled,
+}) => {
   const matchInputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -22,6 +26,7 @@ export const MatchInput: FC<MatchInputProps> = ({ onChangeText, onCheat }) => {
   return (
     <InputWrapper
       rows={8}
+      disabled={isDisabled}
       spellCheck="false"
       ref={matchInputRef}
       onChange={handleOnChange}

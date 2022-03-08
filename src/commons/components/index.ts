@@ -6,6 +6,7 @@ import { GameHeader } from "./GameHeader/GameHeader";
 import { MatchInput } from "./MatchInput/MatchInput";
 import { QueueAlert } from "./QueueAlert/QueueAlert";
 import { MatchFoundModal } from "./MatchFoundModal/MatchFoundModal";
+import { GameResultModal } from "./GameResultModal/GameResultModal";
 
 export {
   TextInput,
@@ -16,4 +17,5 @@ export {
   MatchInput,
   MatchFoundModal,
   QueueAlert,
+  GameResultModal,
 };

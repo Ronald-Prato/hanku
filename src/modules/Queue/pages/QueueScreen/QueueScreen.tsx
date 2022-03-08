@@ -10,6 +10,7 @@ import { IconContainer, MainContainer } from "./Queue.styles";
 import { setQueueAlert } from "../../../../commons/store/common/common.party";
 import { ProfileHudContainer } from "../../containers/ProfileHudContainer/ProfileHudContainer";
 import { GetInQueueContainer } from "../../containers/GetInQueueContainer/GetInQueueContainer";
+import { MatchRoomData } from "../../../../commons/contracts/matchroom.contracts";
 
 const HANKU_SERVER_URL = process.env.REACT_APP_HANKU_SERVER_URL || "";
 const socket: Socket = io(HANKU_SERVER_URL, {
@@ -58,8 +59,9 @@ export const QueueScreen: FC = () => {
       resetMatchFound();
     });
 
-    socket.on("match-starting", () => {
+    socket.on("match-starting", (roomData: MatchRoomData) => {
       resetMatchFound();
+      navigate("/match", { state: { roomData } });
     });
 
     // socket.on("disconnect", () => {
