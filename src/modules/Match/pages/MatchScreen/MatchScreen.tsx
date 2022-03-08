@@ -16,14 +16,16 @@ import { useGunRoom } from "../../../../commons/hooks/useGunRoom";
 import { OpponentViewContainer } from "../../containers/OpponentViewContainer/OpponentViewContainer";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../commons/store";
-import { QUOTE_ROUND_MAX_TIME } from "../../../../constants";
+import { GENERIC_ROOM_DATA, QUOTE_ROUND_MAX_TIME } from "../../../../constants";
 
 export const MatchScreen: FC = () => {
   const user = useSelector((state: RootState) => state.user);
 
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { roomData }: any = state;
+  const { roomData }: any = state || {
+    roomData: GENERIC_ROOM_DATA,
+  };
 
   const {
     updateRoomPlayerText,
@@ -33,13 +35,20 @@ export const MatchScreen: FC = () => {
     updatePlayerScore,
   } = useGunRoom(roomData);
 
-  const oponentId = Object.keys(roomData.players).filter(
+  const opponentId = Object.keys(roomData.players).filter(
     (id) => id !== user.uid
   )[0];
+  const opponentUser = roomData.players[opponentId];
   const phrase = roomData.game["quoteRound"].content;
 
   const [writtenText, setWrittenText] = useState("");
   const [matchPoints, setMatchPoints] = useState(0);
+
+  useEffect(() => {
+    if (!state) {
+      navigate("/home", { replace: true, state: {} });
+    }
+  }, []);
 
   useEffect(() => {
     if (!gameWinner.length) return;
@@ -74,10 +83,10 @@ export const MatchScreen: FC = () => {
   };
 
   const handleAcceptResult = () => {
-    navigate("/home");
+    navigate("/queue", { replace: true, state: {} });
   };
 
-  return (
+  return state ? (
     <MainContainer>
       <SelfPlayer>
         <Content>
@@ -105,7 +114,7 @@ export const MatchScreen: FC = () => {
 
       <OpponentPlayer>
         <OpponentViewContainer
-          opponentId={oponentId}
+          opponent={opponentUser}
           opponentText={opponentText}
         />
       </OpponentPlayer>
@@ -118,5 +127,7 @@ export const MatchScreen: FC = () => {
         />
       )}
     </MainContainer>
+  ) : (
+    <></>
   );
 };

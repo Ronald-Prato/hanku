@@ -6,15 +6,9 @@ import { useGunUser } from "../../../../commons/hooks/useGunUser";
 import { Avatar } from "../../../../commons/components";
 
 export const OpponentViewContainer: FC<OpponentViewContainerProps> = ({
-  opponentId,
+  opponent,
   opponentText,
 }) => {
-  const { getUser, localUser: opponent } = useGunUser();
-
-  useEffect(() => {
-    getUser({ saveUserInState: false, userId: opponentId });
-  }, []);
-
   return (
     <MainContainer>
       <h3>Oponente</h3>

@@ -30,7 +30,7 @@ export const MainScreen = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleCloseSesion = () => {
+  const handleCloseSession = () => {
     signOut(auth);
     navigate("/login");
   };
@@ -48,6 +48,7 @@ export const MainScreen = () => {
           <h2>Type</h2>
 
           <CustomButton onClick={handleGoToQueue}>JUGAR</CustomButton>
+          <button onClick={handleCloseSession}>Salir</button>
         </LeftContainer>
       </MainContainer>
     </HomeLayout>

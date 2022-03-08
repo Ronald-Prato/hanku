@@ -43,7 +43,7 @@ export const GameResultModal: FC<GameResultModalProps> = ({
 
         <ButtonsSection>
           <button className="accept" onClick={handleAccept}>
-            Aceptar
+            Volver a la cola
           </button>
         </ButtonsSection>
       </MainContent>

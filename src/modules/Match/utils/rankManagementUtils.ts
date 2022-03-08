@@ -33,7 +33,7 @@ export const getNewRank = (currentRank: Ranks, newPointsAmmount: number) => {
       return Ranks.Diamond;
     },
 
-    [Ranks.Copper]: () => {
+    [Ranks.Master]: () => {
       if (newPointsAmmount < RANKS_MANAGEMENT.master.minLvl)
         return Ranks.Diamond;
 
@@ -41,5 +41,7 @@ export const getNewRank = (currentRank: Ranks, newPointsAmmount: number) => {
     },
   };
 
-  return comparisonMap[currentRank]();
+  const newRank = comparisonMap[currentRank]();
+
+  return newRank;
 };

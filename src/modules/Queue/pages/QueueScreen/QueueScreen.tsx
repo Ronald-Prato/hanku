@@ -63,16 +63,12 @@ export const QueueScreen: FC = () => {
       resetMatchFound();
       navigate("/match", { state: { roomData } });
     });
-
-    // socket.on("disconnect", () => {
-    //   socket.emit("disconected", user.uid); // undefined
-    // });
   }, []);
 
   const handleGoBack = () => {
     // TODO: Add logic to get off of the queue if youre in
-    socket.emit("exit-queue", user.uid);
-    navigate("/home");
+    socket.emit("exit-queue", user.uid, () => {});
+    navigate("/home", { replace: true });
     // socket.emit("check-queue");
   };
 

@@ -52,7 +52,6 @@ export const useGunRoom = (roomData: MatchRoomData) => {
   };
 
   const createRoom = () => {
-    console.log("creating room ", roomData);
     const newRoomInstance = gun.get(roomData.id).put({ data: roomData });
     gun.get(Entities.Rooms).set(newRoomInstance);
   };

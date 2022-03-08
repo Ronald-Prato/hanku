@@ -55,7 +55,9 @@ export const PhraseContainer: FC<PhraseContainerProps> = ({
   return (
     <MainContainer>
       {phraseWords.map((word, index) => (
-        <Phrase wordState={phraseWordsStates[index]}>{word} </Phrase>
+        <Phrase key={index} wordState={phraseWordsStates[index]}>
+          {word}{" "}
+        </Phrase>
       ))}
     </MainContainer>
   );

@@ -9,6 +9,32 @@ const AVATAR_BASE_URL = "https://avatars.dicebear.com/api/bottts";
 const QUEUE_ALARM_DURATION = 4000;
 const QUOTE_ROUND_MAX_TIME = 120; //seg
 
+const GENERIC_ROOM_DATA = {
+  id: "",
+  text: {},
+  players: {},
+  game: {
+    quoteRound: {
+      content: "",
+      winner: "",
+    },
+    wordsRound: {
+      content: [],
+      winner: "",
+    },
+    charsRound: {
+      content: [],
+      winner: "",
+    },
+  },
+  currentRound: "quoteRound",
+  timestamp: 0,
+  seconds: 0,
+  winner: "",
+  pointsEarned: 0,
+  hasClimbed: false,
+};
+
 const RANKS_MANAGEMENT = {
   [Ranks.Copper]: {
     minLvl: 0,
@@ -70,4 +96,5 @@ export {
   QUEUE_ALARM_DURATION,
   QUOTE_ROUND_MAX_TIME,
   RANKS_MANAGEMENT,
+  GENERIC_ROOM_DATA,
 };

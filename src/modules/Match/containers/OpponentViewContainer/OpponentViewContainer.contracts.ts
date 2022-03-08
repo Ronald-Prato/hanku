@@ -1,4 +1,6 @@
+import { User } from "../../../../commons/contracts/user.contracts";
+
 export interface OpponentViewContainerProps {
-  opponentId: string;
+  opponent: User;
   opponentText: string;
 }
