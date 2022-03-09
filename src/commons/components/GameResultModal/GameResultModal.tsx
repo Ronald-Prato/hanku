@@ -14,6 +14,7 @@ export const GameResultModal: FC<GameResultModalProps> = ({
   onAccept,
   hasWon,
   pointsEarned,
+  customMessage,
 }) => {
   const handleAccept = () => {
     onAccept();
@@ -26,11 +27,17 @@ export const GameResultModal: FC<GameResultModalProps> = ({
         {hasWon ? (
           <FeedbackSection>
             <i>¡Has Ganado!</i>
+            {customMessage && (
+              <span style={{ fontFamily: "Roboto" }}>{customMessage}</span>
+            )}
             <span>¡Sigue sumando puntos para subir de liga!</span>
           </FeedbackSection>
         ) : (
           <FeedbackSection>
             <i>Has Perdido</i>
+            {customMessage && (
+              <span style={{ fontFamily: "Roboto" }}>{customMessage}</span>
+            )}
             <span>Mejor suerte para la próxima</span>
           </FeedbackSection>
         )}

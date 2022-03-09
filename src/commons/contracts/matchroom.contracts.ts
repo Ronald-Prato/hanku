@@ -8,17 +8,18 @@ export interface MatchRoomData {
   id: string;
   text: {};
   players: {};
+  disconnectedPlayer: string;
   game: {
     [RoundNames.QuoteRound]: {
       content: string;
       winner: string;
     };
     [RoundNames.WordsRound]: {
-      content: string[];
+      content: string;
       winner: string;
     };
     [RoundNames.CharsRound]: {
-      content: string[];
+      content: string;
       winner: string;
     };
   };

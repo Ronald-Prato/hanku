@@ -1,4 +1,4 @@
-import io, { Socket } from "socket.io-client";
+import { Socket } from "socket.io-client";
 import { useNavigate } from "react-router-dom";
 import { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,12 +12,7 @@ import { ProfileHudContainer } from "../../containers/ProfileHudContainer/Profil
 import { GetInQueueContainer } from "../../containers/GetInQueueContainer/GetInQueueContainer";
 import { MatchRoomData } from "../../../../commons/contracts/matchroom.contracts";
 
-const HANKU_SERVER_URL = process.env.REACT_APP_HANKU_SERVER_URL || "";
-const socket: Socket = io(HANKU_SERVER_URL, {
-  withCredentials: true,
-});
-
-export const QueueScreen: FC = () => {
+export const QueueScreen: FC<{ socket: Socket }> = ({ socket }) => {
   const user = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
 
@@ -32,10 +27,13 @@ export const QueueScreen: FC = () => {
   };
 
   useEffect(() => {
-    // Exit the queue if go back in browser
-    window.addEventListener("popstate", function (event) {
+    const handleBackBehaviour = () => {
       socket.emit("exit-queue", user.uid, () => {});
-    });
+    };
+
+    // Exit the queue if go back in browser
+    window.addEventListener("popstate", handleBackBehaviour);
+    return () => window.removeEventListener("popstate", handleBackBehaviour);
   }, []);
 
   useEffect(() => {

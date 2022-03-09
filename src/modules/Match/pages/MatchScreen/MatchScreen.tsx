@@ -17,8 +17,11 @@ import { OpponentViewContainer } from "../../containers/OpponentViewContainer/Op
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../commons/store";
 import { GENERIC_ROOM_DATA, QUOTE_ROUND_MAX_TIME } from "../../../../constants";
+import { Socket } from "socket.io-client";
+import { useGunUser } from "../../../../commons/hooks/useGunUser";
+import { User } from "../../../../commons/contracts/user.contracts";
 
-export const MatchScreen: FC = () => {
+export const MatchScreen: FC<{ socket: Socket }> = ({ socket }) => {
   const user = useSelector((state: RootState) => state.user);
 
   const navigate = useNavigate();
@@ -32,17 +35,19 @@ export const MatchScreen: FC = () => {
     opponentText,
     updateRoundWinner,
     gameWinner,
-    updatePlayerScore,
+    setPlayerDisconnection,
   } = useGunRoom(roomData);
+  const { updatePlayerScore, getCustomUser } = useGunUser();
 
   const opponentId = Object.keys(roomData.players).filter(
     (id) => id !== user.uid
   )[0];
-  const opponentUser = roomData.players[opponentId];
+  const [opponentUser, setOpponentUser] = useState<User>({} as User);
   const phrase = roomData.game["quoteRound"].content;
 
   const [writtenText, setWrittenText] = useState("");
   const [matchPoints, setMatchPoints] = useState(0);
+  const [disconnectedPlayer, setDisconnectionPlayer] = useState("");
 
   useEffect(() => {
     if (!state) {
@@ -51,17 +56,61 @@ export const MatchScreen: FC = () => {
   }, []);
 
   useEffect(() => {
+    // Get opponent user form peer network
+    getCustomUser(opponentId, (user) => {
+      if (user) setOpponentUser(user);
+    });
+  });
+
+  const updatePoints = (option: "add" | "subtract", customId?: string) => {
+    updatePlayerScore({
+      option,
+      customId,
+      callback: (points) => {
+        setMatchPoints(points);
+      },
+    });
+  };
+
+  useEffect(() => {
+    socket.on("user-has-diconnected", (disconnectedUserId: string) => {
+      setPlayerDisconnection(disconnectedUserId);
+      setDisconnectionPlayer(disconnectedUserId);
+
+      if (user.uid !== disconnectedUserId) {
+        updatePoints("add", user.uid);
+      } else {
+        updatePoints("subtract", disconnectedUserId);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    // Exit the queue if go back in browser
+    window.history.pushState(null, document.title, window.location.href);
+
+    const handleBackBehaviour = () => {
+      window.history.pushState(null, document.title, window.location.href);
+    };
+
+    window.addEventListener("popstate", handleBackBehaviour);
+    window.addEventListener("beforeunload", () => {
+      navigate("/home", { replace: true });
+    });
+
+    // return () => {
+    //   window.removeEventListener("popstate", handleBackBehaviour);
+    // };
+  }, []);
+
+  useEffect(() => {
     if (!gameWinner.length) return;
 
     // If current player won the game, add some rps to it. otherwise subtract rps.
     if (gameWinner === user.uid) {
-      updatePlayerScore("add", (points) => {
-        setMatchPoints(points);
-      });
+      updatePoints("add");
     } else {
-      updatePlayerScore("subtract", (points) => {
-        setMatchPoints(points);
-      });
+      updatePoints("subtract");
     }
   }, [gameWinner]);
 
@@ -123,6 +172,15 @@ export const MatchScreen: FC = () => {
         <GameResultModal
           onAccept={handleAcceptResult}
           hasWon={gameWinner === user.uid}
+          pointsEarned={matchPoints}
+        />
+      )}
+
+      {disconnectedPlayer.length > 0 && (
+        <GameResultModal
+          customMessage={`${opponentUser.nickname} se ha desconectado`}
+          onAccept={handleAcceptResult}
+          hasWon={disconnectedPlayer !== user.uid}
           pointsEarned={matchPoints}
         />
       )}

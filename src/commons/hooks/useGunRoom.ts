@@ -5,16 +5,11 @@ import { RootState } from "../store";
 import { Entities } from "../../constants";
 import { MatchRoomData, RoundNames } from "../contracts/matchroom.contracts";
 import { useEffect, useState } from "react";
-import { Ranks, User } from "../contracts/user.contracts";
-import { getNewRank } from "../../modules/Match/utils/rankManagementUtils";
-import { useGunUser } from "./useGunUser";
 
 export const useGunRoom = (roomData: MatchRoomData) => {
   const user = useSelector((state: RootState) => state.user);
   const [opponentText, setOpponentText] = useState("");
   const [gameWinner, setGameWinner] = useState("");
-
-  const { updateAllUserInfo } = useGunUser();
 
   useEffect(() => {
     createRoom();
@@ -76,38 +71,11 @@ export const useGunRoom = (roomData: MatchRoomData) => {
       });
   };
 
-  const updatePlayerScore = (
-    option: "add" | "subtract",
-    callback: (newPointsAmount: number) => void
-  ) => {
-    gun
-      .get(user.uid)
-      .get("data")
-      .once((_user: any) => {
-        let newPointsAmmount = 0;
-        let newRank: Ranks = user.rank;
+  const setPlayerDisconnection = (disconnectedId: string) => {
+    const updatedRoom = roomData;
+    updatedRoom.disconnectedPlayer = disconnectedId;
 
-        // TODO: Add real points management according to rank and match time.
-        if (option === "add") {
-          newPointsAmmount = user.lvlPoints + 1;
-          newRank = getNewRank(user.rank, newPointsAmmount);
-          callback(1);
-        }
-
-        if (option === "subtract") {
-          newPointsAmmount = user.lvlPoints > 0 ? user.lvlPoints - 1 : 0;
-          newRank = getNewRank(user.rank, newPointsAmmount);
-          callback(-1);
-        }
-
-        const updatedUser: User = {
-          ...user,
-          lvlPoints: newPointsAmmount,
-          rank: newRank,
-        };
-
-        updateAllUserInfo(updatedUser);
-      });
+    gun.get(roomData.id).put({ data: updatedRoom });
   };
 
   const updateRoundWinner = () => {
@@ -131,6 +99,6 @@ export const useGunRoom = (roomData: MatchRoomData) => {
     updateRoundWinner,
     gameWinner,
     checkRoom,
-    updatePlayerScore,
+    setPlayerDisconnection,
   };
 };

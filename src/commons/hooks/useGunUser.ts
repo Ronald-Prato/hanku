@@ -2,13 +2,14 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Entities } from "../../constants";
 import { gun } from "../../gun";
+import { getNewRank } from "../../modules/Match/utils/rankManagementUtils";
 import { Ranks, User } from "../contracts/user.contracts";
 import { RootState } from "../store";
 import { setUserAvatar, setUserData } from "../store/user/user.party";
 
 export const useGunUser = () => {
   const dispatch = useDispatch();
-  const uid = useSelector((state: RootState) => state.user.uid);
+  const user = useSelector((state: RootState) => state.user);
 
   const [localUser, setLocalUser] = useState<User>({} as User);
 
@@ -25,7 +26,7 @@ export const useGunUser = () => {
   }) => {
     // If we dispatch the user to redux, use our userId or any other user, otherwise, use the one we pass over so we can set it locally
     gun
-      .get(saveUserInState ? userId || uid : userId!)
+      .get(saveUserInState ? userId || user.uid : userId!)
       .get("data")
       .once((_user) => {
         if (!_user) {
@@ -53,6 +54,20 @@ export const useGunUser = () => {
       });
   };
 
+  const getCustomUser = (
+    userId: string,
+    callback: (user: User | null) => void
+  ) => {
+    gun
+      .get(userId)
+      .get("data")
+      .once((_user: any) => {
+        const typedUser: User = _user;
+
+        callback(typedUser);
+      });
+  };
+
   const createUser = ({
     nickname,
     avatar,
@@ -66,7 +81,7 @@ export const useGunUser = () => {
   }) => {
     try {
       const userData: User = {
-        uid,
+        uid: user.uid,
         nickname,
         avatar,
         lvl: 0,
@@ -74,7 +89,7 @@ export const useGunUser = () => {
         rank: Ranks.Copper,
       };
 
-      const newUser = gun.get(uid).put({
+      const newUser = gun.get(user.uid).put({
         data: userData,
       });
 
@@ -88,15 +103,64 @@ export const useGunUser = () => {
 
   const updateAvatar = (newAvatar: string, updatedCallback?: () => void) => {
     console.log(" New avatar: ", newAvatar);
-    gun.get(uid).get("data").put({ avatar: newAvatar });
+    gun.get(user.uid).get("data").put({ avatar: newAvatar });
     dispatch(setUserAvatar(newAvatar));
     updatedCallback && updatedCallback();
   };
 
   const updateAllUserInfo = (newUser: User) => {
-    gun.get(uid).put({ data: newUser });
+    gun.get(user.uid).put({ data: newUser });
     dispatch(setUserData(newUser));
   };
 
-  return { getUser, createUser, updateAvatar, localUser, updateAllUserInfo };
+  const updatePlayerScore = ({
+    option,
+    customId,
+    callback,
+  }: {
+    option: "add" | "subtract";
+    customId?: string;
+    callback: (newPointsAmount: number) => void;
+  }) => {
+    gun
+      .get(customId || user.uid)
+      .get("data")
+      .once((_user: any) => {
+        let newPointsAmmount = 0;
+        let newRank: Ranks = user.rank;
+        const pointsDifference = 1;
+
+        // TODO: Add real points management according to rank and match time.
+        if (option === "add") {
+          newPointsAmmount = user.lvlPoints + pointsDifference;
+          newRank = getNewRank(user.rank, newPointsAmmount);
+          callback(1);
+        }
+
+        if (option === "subtract") {
+          newPointsAmmount =
+            user.lvlPoints > 0 ? user.lvlPoints - pointsDifference : 0;
+          newRank = getNewRank(user.rank, newPointsAmmount);
+          callback(-pointsDifference);
+        }
+
+        const updatedUser: User = {
+          ...user,
+          lvlPoints: newPointsAmmount,
+          rank: newRank,
+        };
+
+        updateAllUserInfo(updatedUser);
+      });
+  };
+
+  return {
+    getUser,
+    createUser,
+    updateAvatar,
+    localUser,
+    updateAllUserInfo,
+    updatePlayerScore,
+    getCustomUser,
+  };
 };

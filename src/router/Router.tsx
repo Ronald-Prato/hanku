@@ -9,6 +9,7 @@ import { AccountScreen } from "../modules/Home/pages";
 import { Login, Signup } from "../modules/Auth/pages";
 import { MatchScreen } from "../modules/Match/pages/MatchScreen/MatchScreen";
 import { QueueScreen } from "../modules/Queue/pages/QueueScreen/QueueScreen";
+import { io, Socket } from "socket.io-client";
 
 const InstantRedirect = ({
   redirectTo,
@@ -20,6 +21,11 @@ const InstantRedirect = ({
   useEffect(() => navigate(redirectTo), []);
   return <></>;
 };
+
+const HANKU_SERVER_URL = process.env.REACT_APP_HANKU_SERVER_URL || "";
+const socket: Socket = io(HANKU_SERVER_URL, {
+  withCredentials: true,
+});
 
 export const Router = () => {
   return (
@@ -46,7 +52,7 @@ export const Router = () => {
           path="/home"
           element={
             <PrivateRoute>
-              <MainScreen />
+              <MainScreen socket={socket} />
             </PrivateRoute>
           }
         />
@@ -70,7 +76,7 @@ export const Router = () => {
           path="/queue"
           element={
             <PrivateRoute>
-              <QueueScreen />
+              <QueueScreen socket={socket} />
             </PrivateRoute>
           }
         />
@@ -78,7 +84,7 @@ export const Router = () => {
           path="/match"
           element={
             <PrivateRoute>
-              <MatchScreen />
+              <MatchScreen socket={socket} />
             </PrivateRoute>
           }
         />
