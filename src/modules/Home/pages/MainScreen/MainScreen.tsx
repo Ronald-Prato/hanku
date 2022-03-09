@@ -85,7 +85,6 @@ export const MainScreen: FC<{ socket: Socket }> = ({ socket }) => {
       </MainContainer>
 
       <QueueAlert />
-      <button onClick={() => console.log(user)}>JEEE</button>
     </HomeLayout>
   ) : null;
 };
