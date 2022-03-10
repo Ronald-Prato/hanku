@@ -132,6 +132,11 @@ export const MatchScreen: FC<{ socket: Socket }> = ({ socket }) => {
   };
 
   const handleAcceptResult = () => {
+    socket.emit("game-finished", {
+      roomId: roomData.id,
+      rank: roomData.players[user.uid].rank,
+      playersIds: Object.keys(roomData.players),
+    });
     navigate("/queue", { replace: true, state: {} });
   };
 

@@ -65,9 +65,9 @@ export const QueueScreen: FC<{ socket: Socket }> = ({ socket }) => {
 
   const handleGoBack = () => {
     // TODO: Add logic to get off of the queue if youre in
-    socket.emit("exit-queue", user.uid, () => {});
-    navigate("/home", { replace: true });
-    // socket.emit("check-queue");
+    // socket.emit("exit-queue", user.uid, () => {});
+    // navigate("/home", { replace: true });
+    socket.emit("check-queue");
   };
 
   const handleExitQueue = () => {
@@ -80,6 +80,7 @@ export const QueueScreen: FC<{ socket: Socket }> = ({ socket }) => {
       uid: user.uid,
       roomId: matchedRoomId,
     });
+
     resetMatchFound();
   };
 
