@@ -23,7 +23,9 @@ const InstantRedirect = ({
 };
 
 const HANKU_SERVER_URL = process.env.REACT_APP_HANKU_SERVER_URL || "";
-const socket: Socket = io(HANKU_SERVER_URL, { transports: ["websocket"] });
+const socket: Socket = io(HANKU_SERVER_URL, {
+  transports: ["polling"],
+});
 
 export const Router = () => {
   return (
