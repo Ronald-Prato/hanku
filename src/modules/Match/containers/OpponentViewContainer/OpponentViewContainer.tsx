@@ -8,7 +8,6 @@ export const OpponentViewContainer: FC<OpponentViewContainerProps> = ({
   opponent,
   opponentText,
 }) => {
-  console.log("opponent container ", opponent);
   return (
     <MainContainer>
       <h3>Oponente</h3>
