@@ -13,8 +13,9 @@ export const MatchInput: FC<MatchInputProps> = ({
     matchInputRef.current?.focus();
   }, []);
 
-  const handleCheatingBehaviour = () => {
-    alert("expulsao por pajuo");
+  const handleCheatingBehaviour = (event: any) => {
+    event.preventDefault();
+    alert("¿A dónde vas crack?");
     onCheat();
   };
 

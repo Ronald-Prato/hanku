@@ -11,12 +11,14 @@ import { setQueueAlert } from "../../../../commons/store/common/common.party";
 import { ProfileHudContainer } from "../../containers/ProfileHudContainer/ProfileHudContainer";
 import { GetInQueueContainer } from "../../containers/GetInQueueContainer/GetInQueueContainer";
 import { MatchRoomData } from "../../../../commons/contracts/matchroom.contracts";
+const sound = require("../../../../assets/sound_effects/match_found.mp3");
 
 export const QueueScreen: FC<{ socket: Socket }> = ({ socket }) => {
   const user = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+  const matchFoundAudio = new Audio(sound);
 
   const [matchFound, setMatchFound] = useState(false);
   const [matchedRoomId, setMatchedRoomId] = useState("");
@@ -42,6 +44,8 @@ export const QueueScreen: FC<{ socket: Socket }> = ({ socket }) => {
 
     // Match found!
     socket.on("matched", (roomId: string) => {
+      matchFoundAudio.volume = 0.2;
+      matchFoundAudio.play();
       setMatchedRoomId(roomId);
       setMatchFound(true);
     });
